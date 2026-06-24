@@ -1,4 +1,3 @@
-
 def main() -> None:
     """启动 web 服务。"""
     import uvicorn

@@ -12,10 +12,10 @@ class Settings(BaseSettings):
     """
 
     model_config = SettingsConfigDict(
-        env_file=".env",          # 自动读 .env
+        env_file=".env",  # 自动读 .env
         env_file_encoding="utf-8",
-        case_sensitive=False,     # 大小写不敏感
-        extra="ignore",           # 忽略未声明的环境变量
+        case_sensitive=False,  # 大小写不敏感
+        extra="ignore",  # 忽略未声明的环境变量
     )
 
     # 基础
