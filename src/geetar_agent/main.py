@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from geetar_agent.api import health
+from geetar_agent.api import chat, health
 from geetar_agent.config import settings
 
 
@@ -19,6 +19,7 @@ def create_app() -> FastAPI:
 
     # 注册路由
     app.include_router(health.router)
+    app.include_router(chat.router)
 
     return app
 
