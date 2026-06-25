@@ -1,0 +1,32 @@
+# 版本控制
+.git
+.gitignore
+
+# Python
+__pycache__/
+*.py[oc]
+build/
+dist/
+*.egg-info
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# 虚拟环境（容器里重新建）
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# 测试和文档
+tests/
+docs/
+
+# 环境密钥（绝不进镜像）
+.env
+.env.*
+!.env.example
+
+# 文档/媒体（README.md 是 pyproject 声明的，构建需要，不要排除）

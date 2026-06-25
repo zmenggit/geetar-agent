@@ -1,0 +1,14 @@
+# 开发期覆盖：挂载源码 + 启用热重载
+# 生产环境绝对不会用这个文件
+services:
+  app:
+    volumes:
+      - ./src:/app/src
+    command:
+      [
+        "uvicorn",
+        "geetar_agent.main:app",
+        "--host", "0.0.0.0",
+        "--port", "8000",
+        "--reload",
+      ]
