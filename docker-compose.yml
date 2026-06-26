@@ -6,8 +6,11 @@ services:
     image: geetar-agent:latest
     container_name: geetar-agent-app
     restart: unless-stopped
-    ports:
-      - "127.0.0.1:8000:8000"
+    # 生产不再向 host 暴露端口：流量从 geetar-nginx 经共享 web 网络进来
+    # 本地开发期由 docker-compose.override.yml 临时把 8000 绑到 127.0.0.1
+    networks:
+      - default      # 内部网络，访问自己的 db/redis
+      - web          # 共享网络，让 geetar-nginx 能反代
     environment:
       APP_ENV: ${APP_ENV:-dev}
       LLM_API_KEY: ${LLM_API_KEY}
@@ -37,6 +40,8 @@ services:
       POSTGRES_DB: geetar
     volumes:
       - pgdata:/var/lib/postgresql/data
+    networks:
+      - default
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U geetar"]
       interval: 5s
@@ -49,6 +54,8 @@ services:
     restart: unless-stopped
     volumes:
       - redisdata:/data
+    networks:
+      - default
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 5s
@@ -58,3 +65,13 @@ services:
 volumes:
   pgdata:
   redisdata:
+
+networks:
+  default:
+    driver: bridge
+  # 与 geetar 共享的外部网络。生产服务器先执行：
+  #   docker network create web
+  # 本地开发由 docker-compose.override.yml 覆盖为普通 bridge 网络
+  web:
+    external: true
+    name: web

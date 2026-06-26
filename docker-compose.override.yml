@@ -1,9 +1,12 @@
-# 开发期覆盖：挂载源码 + 启用热重载
+# 开发期覆盖：挂载源码 + 暴露端口 + 热重载
 # 生产环境绝对不会用这个文件
 services:
   app:
     volumes:
       - ./src:/app/src
+    # 本地开发：把 8000 临时绑到 host 方便 curl/浏览器调试
+    ports:
+      - "127.0.0.1:8000:8000"
     command:
       [
         "uvicorn",
@@ -12,3 +15,12 @@ services:
         "--port", "8000",
         "--reload",
       ]
+
+# 覆盖 base 里的 networks：本地没有 external 'web' 网络
+# 用一个本地普通 bridge 网络代替，让 compose 起得来
+networks:
+  default:
+    driver: bridge
+  web:
+    name: geetar-agent_web_dev
+    driver: bridge
