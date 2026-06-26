@@ -12,7 +12,9 @@ COPY --from=ghcr.io/astral-sh/uv:0.5 /uv /uvx /bin/
 ENV UV_COMPILE_BYTECODE=1 \
     UV_LINK_MODE=copy \
     UV_PYTHON_DOWNLOADS=never \
-    UV_PROJECT_ENVIRONMENT=/app/.venv
+    UV_PROJECT_ENVIRONMENT=/app/.venv \
+    UV_HTTP_TIMEOUT=120 \
+    UV_DEFAULT_INDEX=https://pypi.tuna.tsinghua.edu.cn/simple
 
 WORKDIR /app
 
